@@ -3,16 +3,15 @@
  * admin/language/english/paynow.php
  */
 // Heading
-$_['heading_title']                  = 'SagePayNow.co.za';
+$_['heading_title']                  = 'Sage Pay Now';
 
 // Text
 $_['text_payment']                   = 'Payment';
 $_['text_success']                   = 'Success!';
-$_['text_paynow']                   = '<a href="https://www.sagepay.co.za" ><img src="' . HTTP_SERVER . 'view/image/payment/paynow.png" border="0" /></a>';
+$_['text_paynow']                   = '<a href="https://www.sagepay.co.za" ><img src="' . HTTP_SERVER . 'view/image/payment/Pay-Now-Button.jpg" border="0" /></a>';
 $_['text_debug']                     = 'Debug'; 
 // Entry
 
-$_['entry_sandbox']                  = 'Sandbox Mode:';
 $_['entry_total']                    = 'Total:<br /><span class="help">The checkout total the order must reach before this payment method becomes active.</span>';
 $_['entry_completed_status']         = 'Payment Completed Status:';
 $_['entry_failed_status']            = 'Payment Failed Status:';

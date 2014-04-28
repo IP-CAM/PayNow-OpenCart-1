@@ -7,8 +7,8 @@
 // User agent constituents (for cURL)
 define( 'PN_SOFTWARE_NAME', 'Opencart' );
 define( 'PN_SOFTWARE_VER', "1.5.6.1" );
-define( 'PN_MODULE_NAME', 'PayFast-Opencart' );
-define( 'PN_MODULE_VER', '1.0' );
+define( 'PN_MODULE_NAME', 'SagePayNow-Opencart' );
+define( 'PN_MODULE_VER', '1.0.0' );
 
 // Features
 // - PHP
@@ -81,7 +81,7 @@ function pnlog( $msg = '', $close = false )
             if( !$fh )
             {
                 $pathinfo = pathinfo( __FILE__ );
-                $fh = fopen( $pathinfo['dirname'] .'/paynow.log', 'a+' );
+                $fh = fopen( $pathinfo['dirname'] .'/sagepaynow.log', 'a+' );
             }
 
             // If file was successfully created

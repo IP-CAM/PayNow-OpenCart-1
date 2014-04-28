@@ -39,9 +39,8 @@ class ControllerPaymentPayNow extends Controller {
 		$this->data['entry_cancelled_status'] = $this->language->get('entry_cancelled_status');
 		$this->data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
 		$this->data['entry_status'] = $this->language->get('entry_status');
-		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
-        $this->data['entry_merchant_id'] = $this->language->get('entry_merchant_id');
-        $this->data['entry_merchant_key'] = $this->language->get('entry_merchant_key');
+		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');        
+        $this->data['entry_service_key'] = $this->language->get('entry_service_key');
         $this->data['text_debug'] = $this->language->get('text_debug');
         
 		$this->data['button_save'] = $this->language->get('button_save');
@@ -75,7 +74,7 @@ class ControllerPaymentPayNow extends Controller {
 
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('payment/payfast', 'token=' . $this->session->data['token'], 'SSL'),
+			'href'      => $this->url->link('payment/paynow', 'token=' . $this->session->data['token'], 'SSL'),
       		'separator' => ' :: '
    		);
 
@@ -107,10 +106,10 @@ class ControllerPaymentPayNow extends Controller {
 			$this->data['paynow_total'] = $this->config->get('paynow_total'); 
 		} 
 		
-		if (isset($this->request->post['payfast_completed_status_id'])) {
-			$this->data['payfast_completed_status_id'] = $this->request->post['payfast_completed_status_id'];
+		if (isset($this->request->post['paynow_completed_status_id'])) {
+			$this->data['paynow_completed_status_id'] = $this->request->post['paynow_completed_status_id'];
 		} else {
-			$this->data['payfast_completed_status_id'] = $this->config->get('payfast_completed_status_id');
+			$this->data['paynow_completed_status_id'] = $this->config->get('paynow_completed_status_id');
 		}	
 						
 		if (isset($this->request->post['paynow_failed_status_id'])) {
