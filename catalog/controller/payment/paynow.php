@@ -48,27 +48,35 @@ class ControllerPaymentPayNow extends Controller {
 			$return_url = HTTP_SERVER . "index.php?route=checkout/success";
 			$cancel_url = HTTP_SERVER . "index.php?route=checkout/checkout";
 			$notify_url = HTTP_SERVER . "index.php?route=payment/paynow/callback";
-			$name_first = html_entity_decode ( $order_info ['payment_firstname'], ENT_QUOTES, 'UTF-8' );
-			$name_last = html_entity_decode ( $order_info ['payment_lastname'], ENT_QUOTES, 'UTF-8' );
+			$first_name = html_entity_decode ( $order_info ['payment_firstname'], ENT_QUOTES, 'UTF-8' );
+			$last_name = html_entity_decode ( $order_info ['payment_lastname'], ENT_QUOTES, 'UTF-8' );
 			$email_address = $order_info ['email'];
-			$m_payment_id = $this->session->data ['order_id'];
-			$amount = $this->currency->format ( $order_info ['total'], $order_info ['currency_code'], '', false );			
-			$item_name = urlencode($this->config->get('config_name') . ' - #' . $this->session->data['order_id']);
-			// $custom_str1 = $this->session->data['order_id'];
+			
+			// Create unique order ID
+			$order_id_unique = $this->session->data ['order_id'] . "_" . date("Ymds");
+						 
+			$amount = $this->currency->format ( $order_info ['total'], $order_info ['currency_code'], '', false );						
+			$item_name = urlencode($this->config->get('config_name') . ' - #' . $this->session->data['order_id']);			
 			
 			$payArray = array (
 					'm1' => $service_key,
-					'm2' => $software_vendor_key,
+					'm2' => $software_vendor_key,					
+					'p2' => $order_id_unique,
+					'p3' => $item_name,					
+					'p4' => $amount,
+					'm4' => $first_name,
+					'm5' => $last_name,
+					'm6' => $email_address,
+					'm10' => 'route=payment/paynow/callback',
 					'return_url' => $return_url,
 					'cancel_url' => $cancel_url,
-					'notify_url' => $notify_url,
-					'name_first' => $name_first,
-					'name_last' => $name_last,
-					'email_address' => $email_address,
-					'p2' => $m_payment_id,
-					'p4' => $amount,
-					'p3' => $item_name 
+					'notify_url' => $notify_url										
 			);
+			
+			foreach($payArray as $k=>$v)
+			{				
+				$this->data[$k] = $v;
+			}
 			
 			if (file_exists ( DIR_TEMPLATE . $this->config->get ( 'config_template' ) . '/template/payment/paynow.tpl' )) {
 				$this->template = $this->config->get ( 'config_template' ) . '/template/payment/paynow.tpl';
@@ -97,6 +105,11 @@ class ControllerPaymentPayNow extends Controller {
 		}
 		
 		pnlog ( 'Sage Pay Now IPN call received' );
+		
+		// Convert unique reference back to actual order ID		
+		$pieces = explode("_", $order_id);
+		$order_id = $pieces[0];
+		pnlog ("Actual order ID: " . $order_id);		
 		
 		// Notify Sage Pay Now that information has been received
 		if (! $pnError && ! $pnDone) {
@@ -134,7 +147,7 @@ class ControllerPaymentPayNow extends Controller {
 			
 			$amount = $this->currency->format ( $order_info ['total'], 'ZAR', '', false );
 			// Check order amount
-			if (! pnAmountsEqual ( $pnData ['amount_gross'], $amount )) {
+			if (! pnAmountsEqual ( $pnData ['Amount'], $amount )) {
 				$pnError = true;
 				$pnErrMsg = PN_ERR_AMOUNT_MISMATCH;
 			}
@@ -145,10 +158,10 @@ class ControllerPaymentPayNow extends Controller {
 			pnlog ( 'Check status and update order' );
 			
 			// TODO Replace pn_payment_id from callback here
-			$transaction_id = $pnData ['pn_payment_id'];
+			$transaction_id = $pnData ['RequestTrace'];
 			
-			switch ($pnData ['payment_status']) {
-				case 'COMPLETE' :
+			switch ($pnData ['TransactionAccepted']) {
+				case 'true' :
 					pnlog ( '- Complete' );
 					
 					// Update the purchase status
@@ -156,7 +169,7 @@ class ControllerPaymentPayNow extends Controller {
 					
 					break;
 				
-				case 'FAILED' :
+				case 'false' :
 					pnlog ( '- Failed' );
 					
 					// If payment fails, delete the purchase log
@@ -174,14 +187,27 @@ class ControllerPaymentPayNow extends Controller {
 					// If unknown status, do nothing (safest course of action)
 					break;
 			}
+			pnlog("order_status_id: " . $order_status_id);
 			if (! $order_info ['order_status_id']) {
 				$this->model_checkout_order->confirm ( $order_id, $order_status_id );
+				pnlog("!order_info_order_status_id");
+				
 			} else {
 				$this->model_checkout_order->update ( $order_id, $order_status_id );
+				pnlog("order_info_order_status_id");
+			}
+			
+			if($pnData ['TransactionAccepted'] == 'true') {
+				$this->redirect($this->url->link('checkout/success'));
+			} else {
+				$this->session->data['error'] = "Transaction failed, reason: " . $pnData['Reason'];				
+				$this->redirect($this->url->link('checkout/checkout', '', 'SSL'));
 			}
 		} else {
 			pnlog ( "Errors:\n" . print_r ( $pnErrMsg, true ) );
-		}
+			$this->session->data['error'] = $pnErrMsg;
+			$this->redirect($this->url->link('checkout/checkout', '', 'SSL'));
+		}		
 	}
 }
 ?>
