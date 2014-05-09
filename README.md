@@ -32,7 +32,10 @@ Sage Pay Now Gateway Server Configuration Steps:
 3. Click Sage Connect
 4. Click Pay Now
 5. Make a note of your Service key
-6. Choose both the following URLs for your a and failures URLs:
+
+Sage Pay Now Callback
+
+6. Choose both the following URLs for your Accept and Decline URLs:
 	http://opencart_installation/index.php
 
 OpenCart Steps:
@@ -47,11 +50,17 @@ OpenCart Steps:
 
 Revision History
 ----------------
-Tested with OpenCart version 1.5.6.1
 
 * 7 May 2014/1.0.1
 ** Variable mismatch in TPL file caused Server Error at Sage Pay Now
 ** Improved documentation
+
+Tested with OpenCart version 1.5.6.1
+
+Demo Site
+---------
+Here is a demo site if you want to see OpenCart and the Sage Pay Now gateway in action:
+http://opencart.gatewaymodules.com
 
 Issues & Feature Requests
 -------------------------
