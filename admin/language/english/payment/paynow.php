@@ -8,7 +8,7 @@ $_['heading_title']                  = 'Sage Pay Now';
 // Text
 $_['text_payment']                   = 'Payment';
 $_['text_success']                   = 'Success!';
-$_['text_paynow']                   = '<a href="https://www.sagepay.co.za" ><img src="' . HTTP_SERVER . 'view/image/payment/Pay-Now-Button.jpg" border="0" /></a>';
+$_['text_paynow']                   = '<a href="https://www.sagepay.co.za" ><img src="' . HTTP_SERVER . 'view/image/payment/sagepay.jpg" border="0" /></a>';
 $_['text_debug']                     = 'Debug'; 
 // Entry
 

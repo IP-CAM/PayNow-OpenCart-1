@@ -48,6 +48,8 @@ OpenCart Steps:
 6. Match payment statusses, i.e. choose Complete, Failed, and Cancelled
 7. Click 'Save'
 
+![alt tag](http://opencart.gatewaymodules.com/opencart_screenshot1.png)
+
 Revision History
 ----------------
 
