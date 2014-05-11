@@ -1,7 +1,7 @@
-Sage Pay Now OpenCart Module OpenCart
-=====================================
+Sage Pay Now Credit Card Payment Module for OpenCart
+====================================================
 
-Revision 1.0.1
+Revision 1.0.2
 
 Introduction
 ------------
@@ -53,6 +53,7 @@ OpenCart Steps:
 Revision History
 ----------------
 
+* 10 May 2014/1.0.2 Added new screenshot
 * 7 May 2014/1.0.1
 ** Variable mismatch in TPL file caused Server Error at Sage Pay Now
 ** Improved documentation
