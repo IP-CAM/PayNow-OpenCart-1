@@ -56,7 +56,8 @@ class ControllerPaymentPayNow extends Controller {
 			$order_id_unique = $this->session->data ['order_id'] . "_" . date("Ymds");
 						 
 			$amount = $this->currency->format ( $order_info ['total'], $order_info ['currency_code'], '', false );						
-			$item_name = urlencode($this->config->get('config_name') . ' - #' . $this->session->data['order_id']);			
+			
+			$item_name = $this->config->get('config_name') . ' - Order #' . $this->session->data['order_id'];			
 			
 			$payArray = array (
 					'm1' => $service_key,

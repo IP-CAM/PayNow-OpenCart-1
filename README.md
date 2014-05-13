@@ -53,6 +53,7 @@ OpenCart Steps:
 Revision History
 ----------------
 
+* 13 May 2014/1.0.3 Removed URL encoding on 'Description of Goods' and added word 'Order'
 * 10 May 2014/1.0.2 Added new screenshot
 * 7 May 2014/1.0.1
 ** Variable mismatch in TPL file caused Server Error at Sage Pay Now
