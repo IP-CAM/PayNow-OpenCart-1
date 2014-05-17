@@ -20,6 +20,7 @@ Configuration
 Prerequisites:
 
 You will need:
+
 * Sage Pay Now login credentials
 * Sage Pay Now Service key
 * OpenCart admin login credentials
